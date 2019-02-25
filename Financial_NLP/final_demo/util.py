@@ -1,9 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time : 2018/6/15 下午8:54 
-# @Author : ComeOnJian 
-# @File : project.py 
-# 参考https://github.com/YuriyGuts/pygoose/blob/master/pygoose
 """
 整个项目的结构
 """

@@ -187,9 +187,9 @@ def process_save_embedding_wv(nfile,type = 1,isStore_ids = False):
     embedding_matrix[0] = np.random.randn(embedding_size)
 
     # 加载预训练的词向量w2v
-    print 'load w2v_model...'
+    print ('load w2v_model...')
     w2v_model = KeyedVectors.load_word2vec_format(w2v_path, binary=False)
-    print 'finish w2v_model...'
+    print ('finish w2v_model...')
 
     if type == 3:
         w2v_path2 = project.aux_dir + 'train_all_data.bigram'
@@ -239,7 +239,7 @@ def process_save_char_embedding_wv(isStore_ids = False):
         if word in w2v_char_model.vocab:
             embedding_word_matrix[index] = w2v_char_model.word_vec(word)
             if index % 100 == 0:
-                print 'char {}'.format(index)
+                print ('char {}'.format(index))
 
     project.save(project.aux_dir + 'train_all_char_embedding_matrix.pickle',embedding_word_matrix)
 
@@ -251,7 +251,7 @@ def process_save_char_embedding_wv(isStore_ids = False):
             # 分别遍历每行的两个句子，并进行分词处理
             for col_name in ["s1", "s2"]:
                 # 替换掉脱敏的数字
-                re_str = re_object.subn(u"十一",unicode(row[col_name],'utf-8'))
+                re_str = re_object.subn(u"十一",row[col_name].decode('utf-8'))
                 # 纠正一些词
                 spell_corr_str = transform_other_word(re_str[0],spelling_corrections)
                 spell_corr_str = list(spell_corr_str)
@@ -330,7 +330,7 @@ def pre_train_char_w2v(binary = False):
             # 分别遍历每行的两个句子，并进行分词处理
             for col_name in ["s1", "s2"]:
                 # 替换掉脱敏的数字
-                re_str = re_object.subn(u"十一", unicode(row[col_name], 'utf-8'))
+                re_str = re_object.subn(u"十一", row[col_name].decode('utf-8'))
                 # 纠正一些词
                 spell_corr_str = transform_other_word(re_str[0], spelling_corrections)
                 spell_corr_str = list(spell_corr_str)

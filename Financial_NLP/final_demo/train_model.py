@@ -1,9 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time : 2018/6/16 上午9:34
-# @Author : ComeOnJian
-# @File : train_model.py
-
 from keras.models import Sequential,Model
 from keras.layers.convolutional import Conv2D
 from keras.layers.pooling import MaxPooling2D
@@ -84,7 +78,7 @@ class AttentionLayer(Layer):
 
         a = K.expand_dims(a)
         weighted_input = x * a
-        # print weigthted_input.shape
+        # print(weigthted_input.shape)
         return K.sum(weighted_input, axis=1)
 
     def compute_output_shape(self, input_shape):
@@ -486,7 +480,7 @@ def create_siamese_lstm_dssm_mdoel(embedding_matrix,embedding_word_matrix,model_
         z = MaxPooling2D(pool_size=(mpool_size_2d[i][0], mpool_size_2d[i][1]))(z)
 
     pool1_flat = Flatten()(z)
-    # # print pool1_flat
+    # # print(pool1_flat)
     pool1_flat_drop = Dropout(rate=0.1)(pool1_flat)
     ccn1 = Dense(32, activation='relu')(pool1_flat_drop)
     ccn2 = Dense(16, activation='relu')(ccn1)
@@ -532,7 +526,7 @@ def create_siamese_lstm_dssm_mdoel(embedding_matrix,embedding_word_matrix,model_
     #     z1 = MaxPooling2D(pool_size=(mpool_size_2d[i][0], mpool_size_2d[i][1]))(z1)
     #
     # pool1_flat1 = Flatten()(z1)
-    # # print pool1_flat
+    # # print(pool1_flat)
     # pool1_flat_drop1 = Dropout(rate=0.1)(pool1_flat1)
     # mlp11 = Dense(32, activation='relu')(pool1_flat_drop1)
     # mlp21 = Dense(16, activation='relu')(mlp11)
@@ -589,9 +583,9 @@ def predict(model,X_s1,X_s2):
 
     y1 = model.predict([X_s1,X_s2])
     y2 = model.predict([X_s1,X_s2])
-    print y1.shape
+    print((y1.shape))
     res = (y1 + y2)/2
-    # print res[0:15]
+    # print(res[0:15])
     return res
 
 def predict1(model,X_s1,X_s2,X_s1_char,X_s2_char):
@@ -601,7 +595,7 @@ def predict1(model,X_s1,X_s2,X_s1_char,X_s2_char):
     y1 = model.predict([X_s1,X_s2,X_s1_char,X_s2_char])
     y2 = model.predict([X_s1,X_s2,X_s1_char,X_s2_char])
     res = (y1 + y2)/2
-    # print res[0:15]
+    # print(res[0:15])
     return res
 
 #################### Stacking 模型的融合 ####################
@@ -646,7 +640,7 @@ class StackingBaseClassifier(object):
 
 
         for index, (ix_train, ix_val) in enumerate(kfold.split(x_train)):
-            print '{} fold of {} start train and predict...'.format(index, n_fold)
+            print(('{} fold of {} start train and predict...'.format(index, n_fold)))
             X_fold_train = x_train[ix_train]
             y_fold_train = y_train[ix_train]
 
@@ -667,13 +661,13 @@ class GussianNBClassifier(StackingBaseClassifier):
         pass
 
     def train(self, x_train, y_train, x_val, y_val):
-        print 'use GaussianNB train model...'
+        print(('use GaussianNB train model...'))
         gnb = GaussianNB()
         gnb.fit(x_train, y_train)
         return gnb #, gnb.score(x_val, y_val)
 
     def predict(self, model, x_test):
-        print 'use GaussianNB model test... '
+        print(('use GaussianNB model test... '))
         return model.predict(x_test)
 
 # class LGBClassifier(StackingBaseClassifier):
@@ -692,7 +686,7 @@ class GussianNBClassifier(StackingBaseClassifier):
 #         }
 #
 #     def train(self, x_train, y_train, x_val, y_val):
-#         print 'use LGB train model...'
+#         print('use LGB train model...')
 #         lgb_data_train = lgb.Dataset(x_train, y_train)
 #         lgb_data_val = lgb.Dataset(x_val, y_val)
 #         evals_res = {}
@@ -710,12 +704,12 @@ class GussianNBClassifier(StackingBaseClassifier):
 #         return model
 #
 #     def predict(self, model, x_test):
-#         print 'use LGB model test... '
+#         print('use LGB model test... ')
 #         return model.predict(x_test)
 
 class RFClassifer(StackingBaseClassifier):
     def train(self, x_train, y_train, x_val, y_val):
-        print 'use RandomForest train model...'
+        print('use RandomForest train model...')
         clf = RandomForestClassifier(n_estimators=25,
                                      max_depth=4,
                                      class_weight={
@@ -727,27 +721,27 @@ class RFClassifer(StackingBaseClassifier):
         return clf #, 0.
 
     def predict(self, model, x_test):
-        print 'use RandomForest test...'
+        print('use RandomForest test...')
         return model.predict(x_test)
 
 class LogisicClassifier(StackingBaseClassifier):
     def train(self, x_train, y_train, x_val=None, y_val=None):
-        print 'use LogisticRegression train model...'
+        print('use LogisticRegression train model...')
         lr = LogisticRegression(class_weight={0: 1, 1: 4})
         lr.fit(x_train, y_train)
         return lr
     def predict(self, model, x_test):
-        print 'use LogisticRegression test...'
+        print('use LogisticRegression test...')
         return model.predict(x_test)
 
 class DecisionClassifier(StackingBaseClassifier):
     def train(self, x_train, y_train, x_val=None, y_val=None):
-        print 'use DecisionClassifier train model...'
+        print('use DecisionClassifier train model...')
         dt = DecisionTreeClassifier(class_weight={0: 1, 1: 4},max_depth=5)
         dt.fit(x_train, y_train)
         return dt
     def predict(self, model, x_test):
-        print 'use DecisionClassifier test...'
+        print('use DecisionClassifier test...')
         return model.predict(x_test)
 
 

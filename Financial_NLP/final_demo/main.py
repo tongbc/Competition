@@ -1,8 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time : 2018/6/15 下午10:49 
-# @Author : ComeOnJian 
-# @File : main.py 
 
 from data_prepare import *
 
@@ -44,7 +39,7 @@ def star_process(X_train,y_train,X_test,y_test):
 
         y_fold_train = y_train[ix_train]
         y_fold_val = y_train[ix_val]
-        print 'train fold {} of {} ......'.format((fold_num + 1), 5)
+        print(('train fold {} of {} ......'.format((fold_num + 1), 5)))
         # 定义模型
         lgb_data_train = lgb.Dataset(X_fold_train,y_fold_train)
         lgb_data_val = lgb.Dataset(X_fold_val,y_fold_val)
@@ -63,24 +58,24 @@ def star_process(X_train,y_train,X_test,y_test):
         fold_train_score = evals_res['train'][lgb_param['metric']]
         fold_val_score = evals_res['val'][lgb_param['metric']]
 
-        print 'fold {}: {} rounds ,train loss {:.6f}, val loss {:.6f}'.format(
+        print(('fold {}: {} rounds ,train loss {:.6f}, val loss {:.6f}'.format()
             (fold_num+1),
             len(fold_train_score),
             fold_train_score[-1],
             fold_val_score[-1]
-        )
+        ))
 
         y_test_pred[:,fold_num] = model.predict(X_test).reshape(-1)
 
-        # print model.feature_importance()
+        # print(model.feature_importance())
         # model.save_model(project.trained_model_dir + 'lgb_{}.model'.format(fold_num))
 
-    print y_test_pred.shape, '0'
+    print(y_test_pred.shape, '0')
     y_test_p = np.mean(y_test_pred,axis=1)
 
     # np.save('y_test_pre','pre.npy')
-    print y_test_pred.shape ,'1'
-    print y_test_p.shape ,'2'
+    print((y_test_pred.shape ,'1'))
+    print((y_test_p.shape ,'2'))
 
     for index,pre in enumerate(y_test_p):
         if pre >=0.5:
@@ -88,9 +83,9 @@ def star_process(X_train,y_train,X_test,y_test):
         else:
             y_test_p[index] = 0
 
-    print y_test.shape,'3'
-    print accuracy_score(y_test,y_test_p)
-    print f1_score(y_test,y_test_p)
+    print((y_test.shape,'3'))
+    print((accuracy_score(y_test,y_test_p)))
+    print((f1_score(y_test,y_test_p)))
 
 if __name__ == '__main__':
     # step1 选出的特征
@@ -110,10 +105,10 @@ if __name__ == '__main__':
     df_train,df_test,feature_index_ix = project.load_feature_lists(feature_names_list)
     # 查看抽取的特征情况
     feature_view_df = pd.DataFrame(feature_index_ix, columns=['feature_name', 'start_index', 'end_index'])
-    print feature_view_df
+    print(feature_view_df)
 
-    print df_train.head(20)
-    print df_train.tail(20)
+    print(df_train.head(20))
+    print(df_train.tail(20))
     y_train = np.array(project.load(project.features_dir + 'y_0.6_train.pickle'))
 
     y_test = pd.read_csv(project.data_dir + 'atec_nlp_sim_test_0.4.csv', sep='\t', header=None,
@@ -128,15 +123,15 @@ if __name__ == '__main__':
     # lr = LogisticRegression(class_weight={0:1,1:4})
     # lr.fit(X_train,y_train)
     # y_p = lr.predict(X_test)
-    # print y_p[0:20]
+    # print(y_p[0:20])
     # for index, pre in enumerate(y_p):
     #     if pre >= 0.5:
     #         y_p[index] = 1
     #     else:
     #         y_p[index] = 0
     #
-    # print accuracy_score(y_test, y_p)
-    # print f1_score(y_test, y_p)
+    # print(accuracy_score(y_test, y_p))
+    # print(f1_score(y_test, y_p))
     #
     # clf = RandomForestClassifier(n_estimators=25,
     #                              max_depth=4,
@@ -148,15 +143,15 @@ if __name__ == '__main__':
     #                              )
     # clf.fit(X_train, y_train)
     # y_p1 = clf.predict(X_test)
-    # print accuracy_score(y_test, y_p1)
-    # print f1_score(y_test, y_p1)
+    # print(accuracy_score(y_test, y_p1))
+    # print(f1_score(y_test, y_p1))
     #
     #
     # gb = GaussianNB()
     # gb.fit(X_train, y_train)
     # y_p2 = gb.predict(X_test)
-    # print accuracy_score(y_test, y_p2)
-    # print f1_score(y_test, y_p2)
+    # print(accuracy_score(y_test, y_p2))
+    # print(f1_score(y_test, y_p2))
     #
     # dt = DecisionTreeClassifier(class_weight={
     #                                  0: 1,
@@ -164,29 +159,29 @@ if __name__ == '__main__':
     #                              },max_depth=4)
     # dt.fit(X_train, y_train)
     # y_p3 = dt.predict(X_test)
-    # print accuracy_score(y_test, y_p3)
-    # print f1_score(y_test, y_p3)
+    # print(accuracy_score(y_test, y_p3))
+    # print(f1_score(y_test, y_p3))
 
     # stacking 第一层模型训练
     # lgb_cls = LGBClassifier()
     # lgb_oofp_train, lgb_oofp_val = lgb_cls.get_model_out(X_train,y_train,X_test)
-    # print lgb_oofp_val[0:25]
+    # print(lgb_oofp_val[0:25])
 
     gnb_cls = GussianNBClassifier()
     gnb_oop_train,gnb_oofp_val = gnb_cls.get_model_out(X_train,y_train,X_test)
-    print gnb_oofp_val[0:25]
+    print((gnb_oofp_val[0:25]))
 
     rf_cls = RFClassifer()
     rf_oop_train, rf_oofp_val = rf_cls.get_model_out(X_train, y_train, X_test)
-    print rf_oofp_val[0:25]
+    print((rf_oofp_val[0:25]))
 
     lg_cls = LogisicClassifier()
     lg_oop_train, lg_oofp_val = lg_cls.get_model_out(X_train, y_train, X_test)
-    print lg_oofp_val[0:25]
+    print((lg_oofp_val[0:25]))
 
     dt_cls = DecisionClassifier()
     dt_oop_train, dt_oofp_val = dt_cls.get_model_out(X_train, y_train, X_test)
-    print dt_oofp_val[0:25]
+    print((dt_oofp_val[0:25]))
 
 
     # 构造输入
@@ -209,6 +204,6 @@ if __name__ == '__main__':
         else:
             y_test_p[index] = 0
 
-    print accuracy_score(y_test,y_test_p)
-    print f1_score(y_test,y_test_p)
+    print((accuracy_score(y_test,y_test_p)))
+    print((f1_score(y_test,y_test_p)))
 

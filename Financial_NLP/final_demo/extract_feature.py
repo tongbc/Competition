@@ -1,11 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time : 2018/6/15 下午8:12 
-# @Author : ComeOnJian 
-# @File : extract_feature.py 
 
-
-##
 import pandas as pd
 from train_model import *
 from data_prepare import *
@@ -100,7 +93,7 @@ def extract_feature_siamese_lstm_manDist():
         X_add_val_fold_s2 = np.vstack([X_train_s2[ix_val], X_val_true_s1])
         y_add_val_fold = np.concatenate([train_y[ix_val], y_val_true])
 
-        print 'start train fold {} of {} ......'.format((fold_num + 1), 5)
+        print ('start train fold {} of {} ......'.format((fold_num + 1), 5))
         # 创建模型
         model = create_siamese_lstm_ManDistance_model(embedding_matrix, model_param)
         # 训练模型
@@ -218,7 +211,7 @@ def extract_feature_siamese_lstm_attention():
         X_add_val_fold_s2 = np.vstack([X_train_s2[ix_val], X_val_true_s1])
         y_add_val_fold = np.concatenate([y_train[ix_val], y_val_true])
 
-        print 'start train fold {} of {} ......'.format((fold_num + 1), 5)
+        print ('start train fold {} of {} ......'.format((fold_num + 1), 5))
         # 创建模型
         model = create_siamese_lstm_attention_model(embedding_matrix, model_param)
         # 训练模型
@@ -284,7 +277,7 @@ def extract_feature_siamese_lstm_dssm():
     X_train_s1 = project.load(project.preprocessed_data_dir + 's1_train_ids_pad.pickle')
     X_train_s2 = project.load(project.preprocessed_data_dir + 's2_train_ids_pad.pickle')
 
-    print X_train_s2.shape
+    print (X_train_s2.shape)
 
     X_test_s1 = project.load(project.preprocessed_data_dir + 's1_test_ids_pad.pickle')
     X_test_s2 = project.load(project.preprocessed_data_dir + 's2_test_ids_pad.pickle')
@@ -359,7 +352,7 @@ def extract_feature_siamese_lstm_dssm():
         X_add_val_fold_s1_char = np.vstack([X_char_train_s1[ix_val], X_val_true_s2_char])
         X_add_val_fold_s2_char = np.vstack([X_char_train_s2[ix_val], X_val_true_s1_char])
 
-        print 'start train fold {} of {} ......'.format((fold_num + 1), 5)
+        print ('start train fold {} of {} ......'.format((fold_num + 1), 5))
         # 创建模型
         model = create_siamese_lstm_dssm_mdoel(embedding_matrix,char_embedding_matrix, model_param)
         # 训练模型
@@ -447,7 +440,7 @@ def extract_feature_siamese_lstm_manDist_char():
         X_add_val_fold_s2 = np.vstack([X_train_s2[ix_val], X_val_true_s1])
         y_add_val_fold = np.concatenate([y_train[ix_val], y_val_true])
 
-        print 'start train fold {} of {} ......'.format((fold_num + 1), 5)
+        print ('start train fold {} of {} ......'.format((fold_num + 1), 5))
         # 创建模型
         model = create_abcnn_model(embedding_matrix,nb_filter,filter_width)
         # 训练模型
