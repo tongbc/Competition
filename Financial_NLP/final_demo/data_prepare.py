@@ -1,8 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-# @Time : 2018/6/15 下午10:50 
-# @Author : ComeOnJian 
-# @File : data_prepare.py 
 
 
 import jieba
